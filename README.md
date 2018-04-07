@@ -28,6 +28,6 @@ If do not consider Momentum, the update Sigsgd can be written as
 ![](https://latex.codecogs.com/gif.latex?%5Cbegin%7Balign*%7D%20g_t%20%26%3D%20%5Cnabla%20J%28W_%7Bt-1%7D%29%5C%5C%20W_t%20%26%3D%20W_%7Bt-1%7D%20-%20%5Ceta_t%20%5Ctext%7Bsign%7D%28g_t%29%20%5Cend%7Balign*%7D)
 
 Description of example:\
-Tested on a standard TensorFlow example of MNIST dataset. (https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks/neural_network.py) a\
+Tested on a standard TensorFlow example of MNIST dataset. (https://github.com/aymericdamien/TensorFlow-Examples/blob/master/examples/3_NeuralNetworks/neural_network.py).\
 train.py: train and validate the dataset\
 signum.py: contain the signum optimizer
