@@ -68,23 +68,23 @@ class Signum(optimizer.Optimizer):
         self._momentum_t = None
         self._weight_decay_t = None
 
-    def _prepare(self):
+    def _prepare(self): #todo: comment on it
         self._lr_t = ops.convert_to_tensor(self._lr, name="learning_rate")
         self._momentum_t = ops.convert_to_tensor(self._momentum, name="momentum")
         self._weight_decay_t = ops.convert_to_tensor(self._weight_decay, name="weight_decay")
 
-    def _create_slots(self, var_list):
+    def _create_slots(self, var_list): #todo: comment on it
         if self.momentum_use:
             for v in var_list:
                 self._zeros_slot(v, "m", self._name)
 
-    def _apply_dense(self, grad, var):
+    def _apply_dense(self, grad, var): #todo: comment on it
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
         momentum_t = math_ops.cast(self._momentum_t, var.dtype.base_dtype)
         weight_decay_t = math_ops.cast(self._weight_decay_t, var.dtype.base_dtype)
         
         #signum
-        if self.momentum_use:
+        if self.momentum_use: #todo: comment on it
             m = self.get_slot(var, "m")
             m_t = m.assign(math_ops.mul(momentum_t, m) + math_ops.mul((1-momentum_t), grad))
             if self.weight_decay_use:
