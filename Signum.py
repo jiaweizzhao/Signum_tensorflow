@@ -94,6 +94,6 @@ class Signum(optimizer.Optimizer):
             return control_flow_ops.group(*[var_update, m_t])
 
         #signsgd
-        else:#Use Signsgd to caculate variables and momentum
+        else:#Use Signsgd to caculate variables
             var_update = state_ops.assign_sub(var, math_ops.mul(lr_t, tf.sign(grad)))
             return control_flow_ops.group(*[var_update])
