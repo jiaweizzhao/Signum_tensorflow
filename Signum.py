@@ -63,7 +63,7 @@ class Signum(optimizer.Optimizer):
         else:
             self.weight_decay_use = True
 
-        # Tensor
+        # Tensorazing optimizer parameters 
         self._lr_t = None
         self._momentum_t = None
         self._weight_decay_t = None
@@ -82,9 +82,9 @@ class Signum(optimizer.Optimizer):
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
         momentum_t = math_ops.cast(self._momentum_t, var.dtype.base_dtype)
         weight_decay_t = math_ops.cast(self._weight_decay_t, var.dtype.base_dtype)
-
+        
+        #signum
         if self.momentum_use:
-            #signum
             m = self.get_slot(var, "m")
             m_t = m.assign(math_ops.mul(momentum_t, m) + math_ops.mul((1-momentum_t), grad))
             if self.weight_decay_use:
@@ -93,7 +93,7 @@ class Signum(optimizer.Optimizer):
             var_update = state_ops.assign_sub(var, math_ops.mul(lr_t, tf.sign(m_t)))
             return control_flow_ops.group(*[var_update, m_t])
 
+        #signsgd
         else:
-            #signsgd
             var_update = state_ops.assign_sub(var, math_ops.mul(lr_t, tf.sign(grad)))
             return control_flow_ops.group(*[var_update])
