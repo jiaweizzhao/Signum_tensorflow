@@ -68,23 +68,23 @@ class Signum(optimizer.Optimizer):
         self._momentum_t = None
         self._weight_decay_t = None
 
-    def _prepare(self): #todo: comment on it
+    def _prepare(self): #Create the optimizer parameters 
         self._lr_t = ops.convert_to_tensor(self._lr, name="learning_rate")
         self._momentum_t = ops.convert_to_tensor(self._momentum, name="momentum")
         self._weight_decay_t = ops.convert_to_tensor(self._weight_decay, name="weight_decay")
 
-    def _create_slots(self, var_list): #todo: comment on it
+    def _create_slots(self, var_list): #Create and initialise momentum, an optimizer variable.
         if self.momentum_use:
             for v in var_list:
                 self._zeros_slot(v, "m", self._name)
 
-    def _apply_dense(self, grad, var): #todo: comment on it
+    def _apply_dense(self, grad, var): #Update the training variables and momentum
         lr_t = math_ops.cast(self._lr_t, var.dtype.base_dtype)
         momentum_t = math_ops.cast(self._momentum_t, var.dtype.base_dtype)
         weight_decay_t = math_ops.cast(self._weight_decay_t, var.dtype.base_dtype)
         
         #signum
-        if self.momentum_use: #todo: comment on it
+        if self.momentum_use: #Use the Signum to caculate variables and momentum
             m = self.get_slot(var, "m")
             m_t = m.assign(math_ops.mul(momentum_t, m) + math_ops.mul((1-momentum_t), grad))
             if self.weight_decay_use:
@@ -94,6 +94,6 @@ class Signum(optimizer.Optimizer):
             return control_flow_ops.group(*[var_update, m_t])
 
         #signsgd
-        else:
+        else:#Use Signsgd to caculate variables and momentum
             var_update = state_ops.assign_sub(var, math_ops.mul(lr_t, tf.sign(grad)))
             return control_flow_ops.group(*[var_update])
